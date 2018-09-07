@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  tasks:
+    - name: create key pair using provided key_material
+      ec2_key:
+        name: "workshop-{{ username }}"
+        key_material: "{{ keypair_material }}"
+        region: '{{ region }}'
+      register: keypair_creation
+
+    - name: Gather facts about amazon linux image
+      ec2_ami_facts:
+        filters:
+          name: "amzn-ami-hvm-2016.09.0.20160923*"
+        region: '{{ region }}'
+      register: ami_ids
+
+    - name: provision a test instance.
+      ec2_instance:
+        security_group: "{{ sg_name }}"
+        instance_type: t2.micro
+        image_id: "{{ ami_ids.images.1.image_id }}"
+        key_name: "workshop-{{ username }}"
+        region: "{{ region }}"
+        vpc_subnet_id: subnet-6c864017
+        name: workshop
+        tags:
+          owner: nassim
+

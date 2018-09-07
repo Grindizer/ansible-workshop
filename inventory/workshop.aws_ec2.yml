@@ -1,0 +1,13 @@
+plugin: aws_ec2
+regions: # populate inventory with instances in these regions
+  - eu-west-2
+
+keyed_groups:
+  - prefix: tag
+    key: tags
+  - prefix: instance_type
+    key: instance_type
+  - key: 'security_groups|json_query("[].group_id")'
+    prefix: 'security_groups'
+  - key: placement.region
+    prefix: aws_region

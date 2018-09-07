@@ -1,0 +1,4 @@
+---
+region: eu-west-2
+vpc_id: vpc-e209db8b
+sg_name: global-sg

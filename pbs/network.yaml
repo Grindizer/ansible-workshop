@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Setup global security group.
+      ec2_group:
+        name: "{{ sg_name }}"
+        description: Default sg for linux instances.
+        vpc_id: "{{ vpc_id }}"
+        region: '{{ region }}'
+        rules:
+          - proto: tcp
+            ports:
+            - 22
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow ssh access.
+
